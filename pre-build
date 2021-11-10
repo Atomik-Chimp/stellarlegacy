@@ -1,0 +1,14 @@
+#! /bin/bash
+
+cd stellarlegacy/admin/
+
+bison -dt parser.y
+mv parser.tab.c parser.cpp  
+
+if cmp -s parser.tab.h parser.h; then rm parser.tab.h; else mv parser.tab.h parser.h; fi
+
+flex lex.l
+mv lex.yy.c lex.cpp
+
+cd ../../
+

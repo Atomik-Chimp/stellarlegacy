@@ -1,0 +1,23 @@
+/* config.h.in.  Generated automatically from configure.in by autoheader 2.13.  */
+
+/* Name of package */
+#undef PACKAGE
+
+/* Version number of package */
+#undef VERSION
+
+/* C++ compiler supports template repository */
+#undef HAVE_TEMPLATE_REPOSITORY
+
+/* define if the compiler implements namespaces */
+#undef HAVE_NAMESPACES
+
+/* define if the compiler supports ISO C++ standard library */
+#undef HAVE_STD
+
+/* define if the compiler supports sstream */
+#undef HAVE_SSTREAM
+
+/* define if libstdc++v3 was found */
+#undef HAVE_LIBSTDCXX
+

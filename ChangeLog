@@ -1,0 +1,355 @@
+2002-07-12 Marco Krohn <marco.krohn@gmx.de>
+ 
+  * added version information for libraries
+  * moved rulesystem.* to gamelogic/
+  * modules/ is now a shared library
+  * several upper -> lower fixes
+
+2002-07-07 Marco Krohn <marco.krohn@gmx.de>
+
+  * made TAction::fActor a TDoubleLink
+  * implemented fleet movement conflict resolution
+  * fixed a bug in the fleet movement action generation
+  * added a common base class for TDoubleLink
+
+2002-07-04 Marco Krohn <marco.krohn@gmx.de>
+
+  * added some more methods to TDataPackageList (addCopy) which make it easier
+    to add information which is only temporarily available (the info is first
+    copied and then stored).
+
+2002-07-03 Marco Krohn <marco.krohn@gmx.de>
+
+  * started work on conflict resolution
+  * converted the missing lower->upper for actions
+  * removed fleetaction.h/.cpp, these are now (thanks to Alberto) automatically
+    generated :-)
+
+2002-07-01 Alberto Barsella <ishark@free.fr>
+
+  * Fixes in act-to-cpp to generate good names
+  * Modified gamelogic/Makefile.am to be able to automatically generate
+    .cpp+.h from .act (there are problems)
+  * action types are uppercase, addStandardActions makes sure the action
+    get created
+
+2002-06-30 Marco Krohn <marco.krohn@gmx.de>
+
+  * using the prototype pattern framework (prototype.h) for the actions as well
+    the only obvious changes:
+    
+      action.is( ActionType(MOVE_FLEET) )   -->   PMAction.isType( act, "move_fleet" )
+      TAction::create("Add Waypoint"))      -->   PMAction.create("add_waypoint")
+
+  * using a validate cache for actions again (the cache only works inside TAction)   
+
+2002-06-26 Alberto Barsella <ishark@free.fr>
+
+  * improved act-to-cpp to actually generate compilable code (does not mean
+    that it works :)
+  * modified TAction::load/save not to call the specific sub-class
+    methods (the subclass will call the parent's)
+
+2002-06-24 Marco Krohn <marco.krohn@gmx.de>
+
+  * eliminated unneeded variable from TAction (ObjectsAreValid?)
+  * improved TLog (now using singelton mechanism to guarantee that
+    log output is possible in constructors)
+  * moved code from fleetaction.cpp => fleetaction.act
+    .cpp/.h are now generated from the .act file
+    (warning: does not compile at the moment: if you need it, comment the offending lines
+    the real fix needs some changes in the act-to-cpp script)
+
+2002-06-24 Alberto Barsella <Alberto.Barsella@univ-lille1.fr>
+
+  * rewritten runSequence loop to delete actions immediately and skip
+    over actions which are marked as executed
+
+2002-06-23 Alberto Barsella <Alberto.Barsella@univ-lille1.fr>
+
+  * added act-to-cpp tool and (outdated, for the moment) fleetaction.act
+  * some fixes around to add needed using namespace std; for gcc3 
+    compatibility
+  * fix in TActionSequencer::runSequence to actually call resolveConflict
+
+2002-06-23 Marco Krohn <marco.krohn@gmx.de>
+
+  * made fObjects, fObservers in action a TPEList which fixes a memory leak
+    and makes loading/saving easier.
+  * added method in action to add "involved" action objects
+  * bug fix in TActionSequencer: avoided infinite loop in case of conflicts
+
+2002-06-22 Marco Krohn <marco.krohn@gmx.de>
+
+  * renamed a few methods in TDataPackageList, TRuleSystem
+  * improved the macros for creating rule atoms
+  * rewrote documentation of rule atoms
+  * extended the prototype pattern a bit. Each object now also stores
+    a type ID and a type name. This is needed for the action which at
+    the moment uses its own prototype system => will change this now...
+
+2002-06-07 Marco Krohn <marco.krohn@gmx.de>
+
+  * activated the move fleet rule atom => fleets do move now
+  * extended TRuleAtom: it is now possible to send different data to
+    the rule atom
+  * improved the fleet movement rule:
+    - fleets can reach a waypoint
+
+2002-06-04 Marco Krohn <marco.krohn@gmx.de>
+
+  * some major cleanups and changes in rulesystem
+    now making use of TPrototypeManager
+
+2002-06-03 Marco Krohn <marco.krohn@gmx.de>
+
+  * move actions are added to all stobj
+  * added prototype.h to /common
+    => this makes implementing the prototype pattern easy
+  * ruleatoms are now implemented in a way that they make use of the prototype pattern
+
+2002-05-14 Alberto Barsella <Alberto.Barsella@univ-lille1.fr>
+
+  * modified TActionSequencer to use multiple lists and associated stuff
+    in TAction
+  * fixed some upper/lowecase: getType/TypeName in TType
+
+2002-05-12 Marco Krohn <marco.krohn@gmx.de>
+
+  * moved action sequencer from TGame -> TGameSC
+  * moved method "initializePlayerOrders" from TGameSC -> TGameClient
+  * client can now reload the old actions :-)
+    (just try giving some actions to your fleet, quit, and start in the client modus again)
+  * the server mode does work => actions are executed :-)
+
+2002-05-11 Marco Krohn <marco.krohn@gmx.de>
+
+  * two smaller bug fixes, one in the stringtools, one in TGame
+  * fixed another bug, caused by a missing copy constructor in TWaypoint
+  * reverted changes in TFleet: getType->GetType since there "parents" are already
+    written in uppercase and only changing the childs breaks of course everything.
+  * added the most important race (the owner of almost everything: Iluvatar)
+    => all(??) objects have now an owner and a creator
+  * some smaller extensions in TPlayer and TRace
+  * implemented "reset" method in TLinkUpdate
+
+2002-05-06 Marco Krohn <marco.krohn@gmx.de>
+
+  * TRuleSystem is now a singelton
+  * some minor changes in TRuleSystem
+  * removed the galaxy and rulesystem entries from TGame
+    (both can be accessed by instance() via TRuleSystem / TUniverse)
+  * some modifications in TPList (it now compiles even with -pedantic)
+  * added & modified several methods in TPList
+    => there is now a goTo() method
+  * implemented operator== for TWaypoint
+  * TUniverse uses a "list" instead of a "map" now
+  * seperated some game code => there are four TGame classes now:
+    TGameServer, TGameCreate, TGameSC, TGameClient
+  * fixed several warnings in action.cpp
+    (huh, did you know that the following line gives a warning
+    because of a "trigraph"? (note that the line is a comment)
+    // bla bla ??)
+  * added status information to TPlayer
+  * added the stringtools file
+
+2002-04-01 Marco Krohn <marco.krohn@gmx.de>
+
+  * added and corrected macros for writing actions
+  * added two methods in TAction for setting the creator & actor
+  * enhanced TWaypoint => now the waypoint also stores the wanted speed
+  * adding the right data for an action is now very simple => see sl.cpp
+
+2002-03-24 Marco Krohn <marco.krohn@gmx.de>
+
+  * some configuration changes to make newer autoconf etc. working
+  * you now have to type "make -f Makefile.dist" before "./configure"
+    (therfore you need autoconf, automake and friends)
+  * changed version string to 0.1.5
+  * updated/rewrote/added a lot of tests and made the test output nicer (I love colors :)
+  * added TTesting class
+  * added TDoubleLink class
+  * try to automatically find out if a ship design is used by a subfleet (work in progress)
+  * some changes in TLinkBase / TLink (fixed the setDest type checking problem and
+    fixed a bug in setNull)
+  * added the first tests for TLink
+  * removing inverse links optimized
+
+2002-02-12 Marco Krohn <marco.krohn@gmx.de>
+
+  * removed the increase/decrease Subfleet in TShipDesign =>
+    replaced by new method getUsageNumber which uses TLinkable
+  * added an fuel tank to the list of items
+
+2002-02-05 Marco Krohn <marco.krohn@gmx.de>
+
+  * item is now added to universe class
+
+2002-02-04 Marco Krohn <marco.krohn@gmx.de>
+
+  * updated stellarlegacy.lsm
+  * item loading does now work (you have to look at the logs at the moment
+    to see it)
+
+2002-01-28 Marco Krohn <marco.krohn@gmx.de>
+
+  * Fixed a bug in rulesystem
+  * added some code to TGame to load an item (unfinished)
+
+2002-01-27 Marco Krohn <marco.krohn@gmx.de>
+
+  * TLinkUpdate is now a singleton (means it exists exactly one time)
+    and also uses the correct coding style
+  * changed the meaning of TLinkList and introduced TLinkBaseList
+  * removed the useless "mode" variable from TLinkUpdate
+
+2001-12-18 Marco Krohn <marco.krohn@gmx.de>
+
+  * moved the load&save part from TPList -> TPEList
+    (this was neccessary because fleet uses a TPList<TSubFleet>, but
+    since TSubFleet has a block type, the load/save method looks different
+    than those of other objects such as TWaypoint)
+  * wrote the universe class which contains all galaxies + item lists etc.
+
+2001-12-16 Alberto Barsella <Alberto.Barsella@univ-lille1.fr>
+  * Tlink now uses dynamic_cast<> to ensure type consistency
+  * TFleet/TStellarobject correctly overload TActionObject methods to validate
+    action types
+  * lowercased lots of method names (TGame,TAction mostly)
+  * implemented player order file saving
+  * sl.cpp now allows execution of set waypoint (Yeah! Yeah!! :)
+
+2001-12-06 Marco Krohn <marco.krohn@gmx.de>
+
+  * converted galaxy to the new style
+  * galaxy now uses the stellar object list (the code is now a lot more readable :-)
+  * made TStellarObjectList a list instead of a deque (makes list operations a lot faster)
+
+2001-12-04 Marco Krohn <marco.krohn@gmx.de>
+
+  * some more conversions from XXX -> xXX
+  * implemented the basic rule for "fleet movement"
+
+2001-12-03 Marco Krohn <marco.krohn@gmx.de>
+
+  * added more methods to TDataPackageList which allow getting data from the list
+    and adding data to the list in a very easy way.
+  * removed some unnecessary code repetition from datapackage.cpp
+  * made the usage of return values in ruleatom a lot easier and rewrote one rule
+  * almost completed the documentation of ruleatom
+
+2001-12-02 Marco Krohn <marco.krohn@gmx.de>
+
+  * fixed coding style of property*, random* and all load & save methods
+  * cleaned up the fleet interface
+  * wrote script to create skeleton files for rule atoms
+  * added more rule atoms: "fleet_engine_failure", "item_access"
+  * changes in testgame/universe-definition.sl
+  * fixed a small bug in TGame::PrintStatus
+  * extended the ruleatom framework: using now TDataPackageList to return values.
+
+2001-11-28  Marco Krohn <marco.krohn@gmx.de>
+
+  * some more work on the rule system
+  * created a new directory: "gamelogic/modules" and moved all implementations to that dir
+  * fixed the coding style in race*
+  * added a new race module: race_sl
+  * implemented stars! & basic ruleatom "fleet_movement" (ongoing work)
+
+2001-07-31  Marco Krohn <marco.krohn@gmx.de>
+
+  * moved "creator" and "owner" out of TStellarObject to new class TPropert.
+    TStellarObject -> TActionObject -> TProperty -> TLinkable
+  * changed ID generation (UniqueID now always points to the next unique ID)
+  * TLinkable objects now use their old IDs
+  * added creator filter to TStellarObjectList (nice work Alberto :)
+
+2001-07-28  Alberto Barsella <Alberto.Barsella@univ-lille1.fr>
+
+  * added STL-like filters to TStellarObjectList
+  * advances in client-code in sl.cpp
+  * added operator X* in Link<X> to access pointer more easily.
+
+2001-07-25  Alberto Barsella <Alberto.Barsella@univ-lille1.fr>
+
+  * fix in lex.l to properly handle ID hex numbers when loading files.
+  * changed format of the server/turn files: a game section is now always
+    present after the rulesystem block.
+  * lots of changes in sl.cpp/game.cpp to include a skeleton of a "real"
+    server/client combo.  Introduction of methods to deal with player
+    and server files.
+
+2001-07-23  Marco Krohn <marco.krohn@gmx.de>
+
+  * fixed a nasty memory leak
+  * changed the log output format
+  * fixed bug in TObjectID::operator<  (thanks Alberto!)
+
+2001-07-10  Alberto Barsella <Alberto.Barsella@univ-lille1.fr>
+
+  * rewrite of TGame, ProcessDataBlock now uses a DFA
+  *        "          game creation handled by TGame constructor
+  * added support for action creator in TAction
+
+2001-07-02  Marco Krohn <marco.krohn@gmx.de>
+
+  * started work on TGame::ProcessDataBlock (we can read the rule system now :)
+  * enabled the call in the parser file
+
+2001-06-29  Marco Krohn <marco.krohn@gmx.de>
+
+  * fixed a few bugs and memory leaks
+  * invented class for memory leak detection
+
+2001-06-24  Marco Krohn <marco.krohn@gmx.de>
+
+  * redesigned some parts of TGalaxy
+  * used new framework (as discussed with Ralf) for TGalaxy-TStellarObject
+  * added documentation
+  * added planet.h to the project
+
+2001-06-22  Marco Krohn <marco.krohn@gmx.de>
+
+  * Started implementation  of "move" method for TStellarObject
+    and also added a list of waypoints.
+  * Added TPList class (a list of pointers which also makes loading and saving simpler)
+  * Load & Save now work according to Albertos suggestions.
+  * Several bug fixes
+  * You can now add waypoints to the stellar objects
+
+2001-06-11  Marco Krohn <marco.krohn@gmx.de>
+
+  * All load & save methods now use the TDataPackageList "stream".
+  * Improved TDataPackageList so that it is now very easy to load and save
+    data packages for the elementary types.
+  * Saving does now work for the galaxy as well as for stellar objects.
+    To test: start stellarlegacy with parameter --localserver and create
+    a test galaxy. The output is written to save.dat
+
+2001-05-11  Marco Krohn <marco.krohn@gmx.de>
+
+  * Updated almost all load methods (now using TDataPackageList)
+  * Changed Fatal call parameter list
+
+2001-05-04  Marco Krohn <marco.krohn@gmx.de>
+
+  * Added a define to defs.h (SECURE_MODE)
+  * A fleet does now consist of subfleets
+
+2001-04-18  Marco Krohn <marco.krohn@gmx.de>
+
+  * Load & save does now work
+  * Fixed a small bug in TLinkBase: null links now do not request an update
+
+2001-04-17  Marco Krohn <marco.krohn@gmx.de>
+
+  * Stellar objects now have an owner and an creator
+  * Added class TRuleSystem which contains information about the used rule
+    system. This class is from now on responsible for creating the right
+    objects (e.g. TFleetBasic or TFleetStars or whatever).
+  * Added TODO file to the repository (with a long TODO list :)  
+  * Now using ChangeLog file to document the latest important news, please do  
+    the same :-)
+
+
+

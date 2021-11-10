@@ -1,0 +1,29 @@
+Quick Notes
+===========
+
+1. Compile Problems
+
+At this time, you must run the "pre-build" script before you run make.  It is
+safe to run before or after "configure".  This is to create some parser files
+needed for the build.  Hopefully this step will be removed in version 0.3.
+
+2. Log file
+
+The log file is written by default to log.out which can become quite large. In case
+something went wrong (e.g. stellarlegacy crashed) please keep a copy of the log.out
+file but do NOT send it to the mailing list (did I mention that log.out is a big 
+file? ;-). 
+
+You can disable the log file completly, by commenting out the following line in
+common/defs.h (and you have to recompile of course):
+
+#define LOG_ENABLED
+
+Also you can reduce the number of checks and some extra log info if you comment out
+
+#define SECURE_MODE
+
+(the same file). Note that any change in defs.h probably causes a complete recompile
+since almost all files depend on defs.h.
+
+
