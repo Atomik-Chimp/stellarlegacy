@@ -1,0 +1,383 @@
+# $Id: fleetaction.act,v 1.6 2002/07/08 06:15:35 mkrohn5 Exp $
+
+# Fleet Action Code File
+# Written by: Alberto Barsella
+#             Marco Krohn, <marco.krohn@gmx.de>
+
+# Copyright (C) 1999 - 2002, Alberto Barsella, <Alberto.Barsella@univ-lille1.fr>
+#
+# This program is free software; you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation; either version 1, or (at your option)
+# any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+
+INCLUDES:
+        gamelogic/fleet.h
+        gamelogic/ruleatom.h
+        gamelogic/waypoint.h
+
+# ---------------------------------------------------------------------------
+
+ACTION: Add Waypoint
+
+# The action which adds a waypoint to a stellar object.
+# author: Marco Krohn <marco.krohn@gmx.de>
+# $Id: fleetaction.act,v 1.6 2002/07/08 06:15:35 mkrohn5 Exp $
+#
+# This action stores a waypoint and if executed adds the waypoint to a stellar
+# object.
+
+INTERNAL_FIELDS:
+
+
+FIELDS:
+  TWaypoint fWaypoint "waypoint"
+
+
+INITIALIZE:
+  fWaypoint.reset();
+
+UNINITIALIZE:
+
+
+VALIDATE_OBJECTS:
+  // there are two possibilities that something is wrong
+  // 1. waypoint is stobj && objects.size==0
+  if ( fWaypoint.isStellarObject()==true && fInvolvedObjects.empty()==true )
+    Fatal("TActionAddWaypoint", "validate", "missing object");
+
+  // 2. waypoint is not a stobj && objects.size!=0
+  if ( fWaypoint.isStellarObject()==false && fInvolvedObjects.empty()==false )
+    Fatal("TActionAddWaypoint", "validate", "too many objects");
+        
+
+EXECUTE:
+  LOG("TActionAddWaypoint", "execute")
+    << "executing set waypoint action for fleet" << endl;
+
+  // create a new waypoint convert the actor to TStellarObject
+  TStellarObject* stobj = dynamic_cast<TStellarObject*>((TActionObject*) fActor);
+
+  // this is PURE paranoia, it should never never happen
+  if ( stobj == 0 )
+    Fatal("TActionAddWaypoint", "execute", "actor is NOT a stellar object!?!?" );
+
+  stobj->addWaypoint( fWaypoint );
+
+        
+CHECK_CONFLICT:
+  // no conflicts possible
+
+RESOLVE_CONFLICT:
+  // no conflicts possible
+
+
+METHOD: void setWaypoint( const TWaypoint& wp )
+  fWaypoint = wp;
+
+
+# ---------------------------------------------------------------------------
+
+ACTION: Insert Waypoint
+
+# The action which inserts a waypoint in a stellar object waypoint list.
+# author: Ralf Laue <ralf.laue@gmx.de>
+# $Id: fleetaction.act,v 1.6 2002/07/08 06:15:35 mkrohn5 Exp $
+#
+# This action stores a waypoint and if executed adds the waypoint to a stellar
+# object, inserting it in the waypoint list at the specified position.
+
+INTERNAL_FIELDS:
+
+FIELDS:
+    TWaypoint fWaypoint "waypoint"
+    int2 fWaypointNumber "waypoint_number"
+
+
+INITIALIZE:
+  fWaypoint.reset();
+  fWaypointNumber = 0; // default position is at the head of the list
+
+UNINITIALIZE:
+
+VALIDATE_OBJECTS:
+  // to be written
+
+EXECUTE:
+  LOG("TActionInsertWaypoint", "execute")
+    << "executing insert waypoint action for fleet" << endl;
+
+  // insert a new waypoint
+  // convert the actor to TStellarObject
+  TStellarObject* stobj = dynamic_cast<TStellarObject*>((TActionObject*) fActor);
+
+  // this is PURE paranoia, it should never never happen
+  if ( stobj == 0 )
+    Fatal("TActionInsertWaypoint", "execute", "actor is NOT a stellar object!?!?" );
+
+  stobj->insertWaypoint( fWaypoint, fWaypointNumber );
+
+        
+CHECK_CONFLICT:
+  // no conflicts possible
+
+RESOLVE_CONFLICT:
+  // no conflicts possible
+
+
+METHOD: void setWaypoint( const TWaypoint& wp )
+  fWaypoint = wp;
+
+
+METHOD: void setInsertPosition( int2 InsertPosition )
+  fWaypointNumber = InsertPosition;
+
+
+# ---------------------------------------------------------------------------
+
+ACTION: Remove Waypoint
+
+# The action which deletes a waypoint from a stellar object waypoint list.
+# author: Ralf Laue <ralf.laue@gmx.de>
+# $Id: fleetaction.act,v 1.6 2002/07/08 06:15:35 mkrohn5 Exp $
+#
+# This action stores deletes the specified (number) waypoint from the
+# waypoint list of a stellar object
+
+INTERNAL_FIELDS:
+
+FIELDS:
+    int2 fWaypointNumber "waypoint_number"
+
+
+INITIALIZE:
+  fWaypointNumber = 0; // default position is at the head of the list
+
+UNINITIALIZE:
+
+
+VALIDATE_OBJECTS:
+  // to be written
+
+EXECUTE:
+  LOG("TActionRemoveWaypoint", "execute")
+    << "executing remove waypoint action for fleet" << endl;
+
+  // convert the actor to TStellarObject
+  TStellarObject* stobj = dynamic_cast<TStellarObject*>((TActionObject*) fActor);
+
+  // this is PURE paranoia, it should never never happen
+  if ( stobj == 0 )
+    Fatal("TActionRemoveWaypoint", "execute", "actor is NOT a stellar object!?!?" );
+
+  stobj->removeWaypoint( fWaypointNumber );
+
+        
+CHECK_CONFLICT:
+  // no conflicts possible
+
+RESOLVE_CONFLICT:
+  // no conflicts possible
+
+
+METHOD: void setWaypointNumber( int2 waypointNumber )
+  fWaypointNumber = waypointNumber;
+
+
+# ---------------------------------------------------------------------------
+
+ACTION: Replace Waypoint
+
+# The action which replaces a waypoint in a stellar object waypoint list.
+# author: Ralf Laue <ralf.laue@gmx.de>
+# $Id: fleetaction.act,v 1.6 2002/07/08 06:15:35 mkrohn5 Exp $
+#
+# This action stores a waypoint and if executed uses it to replace the 
+# one at the indicated position in a stellar waypoint list.
+
+INTERNAL_FIELDS:
+
+FIELDS:
+    TWaypoint fWaypoint "waypoint"
+    int2 fWaypointNumber "waypoint_number"
+
+
+INITIALIZE:
+  fWaypoint.reset();
+  fWaypointNumber = 0; // default position is at the head of the list
+
+UNINITIALIZE:
+
+
+VALIDATE_OBJECTS:
+  // to be written
+
+EXECUTE:
+  LOG("TActionReplaceWaypoint", "execute")
+    << "executing replace waypoint action for fleet" << endl;
+
+  // convert the actor to TStellarObject
+  TStellarObject* stobj = dynamic_cast<TStellarObject*>((TActionObject*) fActor);
+
+  // this is PURE paranoia, it should never never happen
+  if ( stobj == 0 )
+    Fatal("TActionReplaceWaypoint", "execute", "actor is NOT a stellar object!?!?" );
+
+  stobj->replaceWaypoint(  fWaypoint, fWaypointNumber );
+
+        
+CHECK_CONFLICT:
+  // no conflicts possible
+
+RESOLVE_CONFLICT:
+  // no conflicts possible
+
+
+METHOD: void setWaypoint( const TWaypoint& wp )
+  fWaypoint = wp;
+
+
+METHOD: void setWaypointNumber( int2 waypointNumber )
+  fWaypointNumber = waypointNumber;
+
+
+# ---------------------------------------------------------------------------
+
+SERVER_ACTION: Move Fleet
+
+# The action which performs the actual fleet movement.
+# author: Marco Krohn <marco.krohn@gmx.de>
+# $Id: fleetaction.act,v 1.6 2002/07/08 06:15:35 mkrohn5 Exp $
+#
+# This action is used internally by the server during turn generation to
+# actually move a fleet
+
+INTERNAL_FIELDS:
+
+FIELDS:
+
+
+INITIALIZE:
+
+UNINITIALIZE:
+
+
+VALIDATE_OBJECTS:
+  // The number of involved objects has to be one or zero
+  if ( fInvolvedObjects.size() > 1 )
+    Fatal("TActionMoveFleet", "validate", "too many involved objects!");
+
+
+EXECUTE:
+  cout << "execute action" << endl;
+  TFleet* fleet = dynamic_cast<TFleet*>(fActor.getDest());
+  LOG("TActionMoveFleet", "execute") << "executing fleet movement for fleet " << fleet->getName()
+    << " (ID: " << fleet->getID() << ")" << endl;
+
+  // preparing the fleet
+  if ( fleet->hasWaypoint() == false )  return true;         // empty wp list => fleet does not move
+  fleet->setSpeed( fleet->getWaypointList()->getFirst()->getWantedSpeed() );
+
+  // preparing the rule atom
+  TRuleAtom* ra = TRuleSystem::instance().getRuleAtom("fleet_movement");
+  ra->addInfo( "fleet", fActor );
+  ra->addInfo( "time", 1.0 );
+  ra->execute();
+  delete ra;
+
+        
+CHECK_CONFLICT:
+  if ( fInvolvedObjects.isEmpty() == false  &&
+       fInvolvedObjects.getFirst()->getDestType() == TType::FLEET ) {
+    cout << "conflict!" << endl;
+    return true;               // fleet wants to move towards another object
+  }
+  cout << "no conflict" << endl;
+  cout << fInvolvedObjects.isEmpty() << endl;
+  if ( fInvolvedObjects.isEmpty() == false )  cout << fInvolvedObjects.getFirst()->getDestType() << endl;
+  if ( fInvolvedObjects.isEmpty() == false )  cout << fInvolvedObjects.getFirst()->getDestTypeName() << endl;
+
+RESOLVE_CONFLICT:
+  // TODO resolve conflicts (= circular, I fear....)
+  cout << "resolve conflict" << endl;
+
+  deque<TFleet*> circle;                                   // contains the action objects which are in conflict
+  TFleet* start = dynamic_cast<TFleet*>( getActor() );     // the "start" point of the list
+
+  TFleet* p = start;
+  do  {
+    circle.push_back( p );
+    TWaypoint* wp = p->getWaypointList()->getFirst();
+    if ( wp->isStellarObject()==true && wp->getStellarObject()->getType()==TType::FLEET )  {
+      p = dynamic_cast<TFleet*>( wp->getStellarObject() );
+    }
+    else  {
+      Fatal("TActionMoveFleet","resolveActionConflict","object is not a fleet, unable to build circle of conflicting objects");
+    }  
+  }                            
+  while ( p != start );
+
+  deque<TFleet*>::iterator it;
+  LOG("TActionMoveFleet","resolveActionConflict") << "the following objects are conflicting with each other:" << endl;
+  for ( it=circle.begin(); it!=circle.end(); it++ )  {
+    LOG("TActionMoveFleet","resolveActionConflict") << (*it)->getName() << endl;
+    (*it)->setSpeed( (*it)->getWaypointList()->getFirst()->getWantedSpeed() );
+  }
+
+  // move all fleets in 1/10 steps
+  int i;
+  for ( i=0; i<10; i++ )  {
+    for ( it=circle.begin(); it!=circle.end(); it++ )  {
+      TRuleAtom* ra = TRuleSystem::instance().getRuleAtom("fleet_movement");
+      ra->addInfo( "fleet", *it );
+      ra->addInfo( "time", 0.1 );
+      ra->execute();
+      delete ra;
+    }
+  }
+
+  TLinkBaseList l;
+  TLinkBaseList::iterator lit;
+  TDoubleLink<TActionObject>* lnk;
+
+  // mark all actions as executed
+  for ( it=circle.begin(); it!=circle.end(); it++ )  {
+    l = (*it)->getLinkedByList();
+    for ( lit=l.begin(); lit!=l.end(); lit++ )  {
+      cout << "type: " << (*lit)->getType() << " dest type: " <<  (*lit)->getDestTypeName() << endl;
+      if ( (*lit)->getType() == TLinkBase::DOUBLE_LINK )  {
+        TDoubleLinkBase* dlb = dynamic_cast<TDoubleLinkBase*>(*lit);
+        cout << dlb->getInverse()->getType() << endl;
+        if ( dlb->getInverse()->getType() == TType::ACTION )  {
+          lnk = dynamic_cast< TDoubleLink<TActionObject>* >( (*lit) );
+          TAction* act = dynamic_cast<TAction*>( lnk->getInverse() );
+          act->markAsExecuted();
+        }
+      }
+    }
+  }
+
+
+
+
+
+#
+# $Log: fleetaction.act,v $
+# Revision 1.6  2002/07/08 06:15:35  mkrohn5
+# conflict resolution is almost ready
+#
+# Revision 1.5  2002/07/02 23:16:58  mkrohn5
+# first code for conflict resolution
+#
+# Revision 1.4  2002/07/01 00:05:56  mkrohn5
+# prototype pattern used in action.cpp/.h
+#
+# Revision 1.3  2002/06/26 19:16:08  ishark
+# more work on act-to-cpp and fleetactions
+#
+#
