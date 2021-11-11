@@ -1,4 +1,3 @@
-# Generated automatically from Makefile.in by config.pl.
 # KDE tags expanded automatically by am_edit - $Revision: 1.1 $ 
 # Makefile.in generated automatically by automake 1.4-p6 from Makefile.am
 
@@ -15,49 +14,49 @@
 ####### kdevelop will overwrite this part!!! (begin)##########
 
 
-SHELL = /bin/sh
+SHELL = @SHELL@
 
-srcdir = .
-top_srcdir = ../..
-VPATH = .
-prefix = /usr/local
-exec_prefix = ${prefix}
+srcdir = @srcdir@
+top_srcdir = @top_srcdir@
+VPATH = @srcdir@
+prefix = @prefix@
+exec_prefix = @exec_prefix@
 #>- 
-bindir = ${exec_prefix}/bin
+bindir = @bindir@
 #>+ 3
 DEPDIR = .deps
 
-bindir = ${exec_prefix}/bin
-sbindir = ${exec_prefix}/sbin
-libexecdir = ${exec_prefix}/libexec
-datadir = ${prefix}/share
-sysconfdir = ${prefix}/etc
-sharedstatedir = ${prefix}/com
-localstatedir = ${prefix}/var
-libdir = ${exec_prefix}/lib
-infodir = ${prefix}/info
-mandir = ${prefix}/man
-includedir = ${prefix}/include
+bindir = @bindir@
+sbindir = @sbindir@
+libexecdir = @libexecdir@
+datadir = @datadir@
+sysconfdir = @sysconfdir@
+sharedstatedir = @sharedstatedir@
+localstatedir = @localstatedir@
+libdir = @libdir@
+infodir = @infodir@
+mandir = @mandir@
+includedir = @includedir@
 oldincludedir = /usr/include
 
 DESTDIR =
 
-pkgdatadir = $(datadir)/stellarlegacy
-pkglibdir = $(libdir)/stellarlegacy
-pkgincludedir = $(includedir)/stellarlegacy
+pkgdatadir = $(datadir)/@PACKAGE@
+pkglibdir = $(libdir)/@PACKAGE@
+pkgincludedir = $(includedir)/@PACKAGE@
 
 top_builddir = ../..
 
-ACLOCAL = /home/pi/prog/stellarlegacy/stellarlegacy-0.2/stellarlegacy/admin/missing aclocal-1.4
-AUTOCONF = /home/pi/prog/stellarlegacy/stellarlegacy-0.2/stellarlegacy/admin/missing autoconf
-AUTOMAKE = /home/pi/prog/stellarlegacy/stellarlegacy-0.2/stellarlegacy/admin/missing automake-1.4
-AUTOHEADER = /home/pi/prog/stellarlegacy/stellarlegacy-0.2/stellarlegacy/admin/missing autoheader
+ACLOCAL = @ACLOCAL@
+AUTOCONF = @AUTOCONF@
+AUTOMAKE = @AUTOMAKE@
+AUTOHEADER = @AUTOHEADER@
 
-INSTALL = /usr/bin/install -c -p
-INSTALL_PROGRAM = ${INSTALL} $(INSTALL_STRIP_FLAG) $(AM_INSTALL_PROGRAM_FLAGS)
-INSTALL_DATA = ${INSTALL} -m 644
-INSTALL_SCRIPT = ${INSTALL}
-transform = s,x,x,
+INSTALL = @INSTALL@
+INSTALL_PROGRAM = @INSTALL_PROGRAM@ $(AM_INSTALL_PROGRAM_FLAGS)
+INSTALL_DATA = @INSTALL_DATA@
+INSTALL_SCRIPT = @INSTALL_SCRIPT@
+transform = @program_transform_name@
 
 NORMAL_INSTALL = :
 PRE_INSTALL = :
@@ -65,27 +64,27 @@ POST_INSTALL = :
 NORMAL_UNINSTALL = :
 PRE_UNINSTALL = :
 POST_UNINSTALL = :
-build_alias = armv7l-unknown-linux-gnu
-build_triplet = armv7l-unknown-linux-gnu
-host_alias = armv7l-unknown-linux-gnu
-host_triplet = armv7l-unknown-linux-gnu
-target_alias = armv7l-unknown-linux-gnu
-target_triplet = armv7l-unknown-linux-gnu
+build_alias = @build_alias@
+build_triplet = @build@
+host_alias = @host_alias@
+host_triplet = @host@
+target_alias = @target_alias@
+target_triplet = @target@
 ARTSCCONFIG = @ARTSCCONFIG@
 AS = @AS@
-AUTODIRS = 
-CC = gcc
-CONF_FILES =  $(top_srcdir)/configure.in.in
-CPP = gcc -E
-CXX = c++
-CXXCPP = c++ -E
+AUTODIRS = @AUTODIRS@
+CC = @CC@
+CONF_FILES = @CONF_FILES@
+CPP = @CPP@
+CXX = @CXX@
+CXXCPP = @CXXCPP@
 DCOPIDL = @DCOPIDL@
 DCOPIDL2CPP = @DCOPIDL2CPP@
 DCOP_DEPENDENCIES = @DCOP_DEPENDENCIES@
 DLLTOOL = @DLLTOOL@
 DPMSINC = @DPMSINC@
 DPMSLIB = @DPMSLIB@
-EXEEXT = 
+EXEEXT = @EXEEXT@
 GCJ = @GCJ@
 GCJFLAGS = @GCJFLAGS@
 GLINC = @GLINC@
@@ -98,18 +97,18 @@ JAVAC = @JAVAC@
 JAVAH = @JAVAH@
 JVMLIBS = @JVMLIBS@
 KDECONFIG = @KDECONFIG@
-KDE_CXXFLAGS = 
+KDE_CXXFLAGS = @KDE_CXXFLAGS@
 KDE_EXTRA_RPATH = @KDE_EXTRA_RPATH@
 KDE_INCLUDES = @KDE_INCLUDES@
 KDE_LDFLAGS = @KDE_LDFLAGS@
 KDE_MT_LDFLAGS = @KDE_MT_LDFLAGS@
 KDE_MT_LIBS = @KDE_MT_LIBS@
-KDE_PLUGIN = -avoid-version -module -no-undefined $(KDE_RPATH) $(KDE_MT_LDFLAGS)
+KDE_PLUGIN = @KDE_PLUGIN@
 KDE_RPATH = @KDE_RPATH@
-KDE_USE_CLOSURE_FALSE = #
-KDE_USE_CLOSURE_TRUE = 
-KDE_USE_FINAL_FALSE = 
-KDE_USE_FINAL_TRUE = #
+KDE_USE_CLOSURE_FALSE = @KDE_USE_CLOSURE_FALSE@
+KDE_USE_CLOSURE_TRUE = @KDE_USE_CLOSURE_TRUE@
+KDE_USE_FINAL_FALSE = @KDE_USE_FINAL_FALSE@
+KDE_USE_FINAL_TRUE = @KDE_USE_FINAL_TRUE@
 KDE_XSL_STYLESHEET = @KDE_XSL_STYLESHEET@
 LEX = @LEX@
 LEXLIB = @LEXLIB@
@@ -129,7 +128,7 @@ LIBSHADOW = @LIBSHADOW@
 LIBSM = @LIBSM@
 LIBSOCKET = @LIBSOCKET@
 LIBTIFF = @LIBTIFF@
-LIBTOOL = $(SHELL) $(top_builddir)/libtool
+LIBTOOL = @LIBTOOL@
 LIBUCB = @LIBUCB@
 LIBUTIL = @LIBUTIL@
 LIBXINERAMA = @LIBXINERAMA@
@@ -152,20 +151,20 @@ LIB_QTOPIA = @LIB_QTOPIA@
 LIB_SMB = @LIB_SMB@
 LIB_X11 = @LIB_X11@
 LIB_XEXT = @LIB_XEXT@
-LN_S = ln -s
-MAKEINFO = /home/pi/prog/stellarlegacy/stellarlegacy-0.2/stellarlegacy/admin/missing makeinfo
+LN_S = @LN_S@
+MAKEINFO = @MAKEINFO@
 MCOPIDL = @MCOPIDL@
 MEINPROC = @MEINPROC@
 MICO_INCLUDES = @MICO_INCLUDES@
 MICO_LDFLAGS = @MICO_LDFLAGS@
 MOC = @MOC@
 MSGFMT = @MSGFMT@
-NOOPT_CFLAGS = 
-NOOPT_CXXFLAGS =  -fno-exceptions -fno-check-new
-NOREPO = -fno-repo
+NOOPT_CFLAGS = @NOOPT_CFLAGS@
+NOOPT_CXXFLAGS = @NOOPT_CXXFLAGS@
+NOREPO = @NOREPO@
 OBJDUMP = @OBJDUMP@
-OBJEXT = o
-PACKAGE = stellarlegacy
+OBJEXT = @OBJEXT@
+PACKAGE = @PACKAGE@
 PAMLIBS = @PAMLIBS@
 PASSWDLIBS = @PASSWDLIBS@
 PYTHONINC = @PYTHONINC@
@@ -175,20 +174,20 @@ QTE_NORTTI = @QTE_NORTTI@
 QTOPIA_INCLUDES = @QTOPIA_INCLUDES@
 QT_INCLUDES = @QT_INCLUDES@
 QT_LDFLAGS = @QT_LDFLAGS@
-RANLIB = ranlib
-REPO = -frepo
+RANLIB = @RANLIB@
+REPO = @REPO@
 SETUIDFLAGS = @SETUIDFLAGS@
-STRIP = strip
-TOPSUBDIRS =  stellarlegacy
+STRIP = @STRIP@
+TOPSUBDIRS = @TOPSUBDIRS@
 UIC = @UIC@
 UIC_TR = @UIC_TR@
-USER_INCLUDES = 
-USER_LDFLAGS = 
-USE_EXCEPTIONS = -fexceptions
-USE_RTTI = 
+USER_INCLUDES = @USER_INCLUDES@
+USER_LDFLAGS = @USER_LDFLAGS@
+USE_EXCEPTIONS = @USE_EXCEPTIONS@
+USE_RTTI = @USE_RTTI@
 USE_THREADS = @USE_THREADS@
-VERSION = 0.2
-WOVERLOADED_VIRTUAL = 
+VERSION = @VERSION@
+WOVERLOADED_VIRTUAL = @WOVERLOADED_VIRTUAL@
 XGETTEXT = @XGETTEXT@
 XPMINC = @XPMINC@
 XPMLIB = @XPMLIB@
@@ -196,8 +195,8 @@ X_EXTRA_LIBS = @X_EXTRA_LIBS@
 X_INCLUDES = @X_INCLUDES@
 X_LDFLAGS = @X_LDFLAGS@
 X_PRE_LIBS = @X_PRE_LIBS@
-all_includes =  
-all_libraries =  
+all_includes = @all_includes@
+all_libraries = @all_libraries@
 idldir = @idldir@
 jni_includes = @jni_includes@
 kde_appsdir = @kde_appsdir@
@@ -221,7 +220,7 @@ kde_styledir = @kde_styledir@
 kde_templatesdir = @kde_templatesdir@
 kde_wallpaperdir = @kde_wallpaperdir@
 kde_widgetdir = @kde_widgetdir@
-libstdcxxdir = 
+libstdcxxdir = @libstdcxxdir@
 micodir = @micodir@
 qt_includes = @qt_includes@
 qt_libraries = @qt_libraries@
@@ -243,10 +242,10 @@ CONFIG_CLEAN_FILES =
 LIBRARIES =  $(noinst_LIBRARIES)
 
 
-DEFS = -DHAVE_CONFIG_H -I. -I$(srcdir) -I../..
-CPPFLAGS = 
-LDFLAGS = 
-LIBS = 
+DEFS = @DEFS@ -I. -I$(srcdir) -I../..
+CPPFLAGS = @CPPFLAGS@
+LDFLAGS = @LDFLAGS@
+LIBS = @LIBS@
 libtesting_a_LIBADD = 
 #>- libtesting_a_OBJECTS =  test-objectid.$(OBJEXT) test-def.$(OBJEXT) \
 #>- testing.$(OBJEXT) test-fleet.$(OBJEXT) test-subfleet.$(OBJEXT) \
@@ -258,10 +257,10 @@ libtesting_a_nofinal_OBJECTS = test-objectid.$(OBJEXT) test-def.$(OBJEXT) \
 	testing.$(OBJEXT) test-fleet.$(OBJEXT) test-subfleet.$(OBJEXT) \
 	test-shipdesign.$(OBJEXT) test-action.$(OBJEXT) test-osval.$(OBJEXT) \
 	test-substance.$(OBJEXT) test-link.$(OBJEXT) test-random.$(OBJEXT)
-libtesting_a_OBJECTS = $(libtesting_a_nofinal_OBJECTS)
-#libtesting_a_OBJECTS = $(libtesting_a_final_OBJECTS)
+@KDE_USE_FINAL_FALSE@libtesting_a_OBJECTS = $(libtesting_a_nofinal_OBJECTS)
+@KDE_USE_FINAL_TRUE@libtesting_a_OBJECTS = $(libtesting_a_final_OBJECTS)
 AR = ar
-CXXFLAGS = -O2 -fno-exceptions -fno-check-new
+CXXFLAGS = @CXXFLAGS@
 #>- CXXCOMPILE = $(CXX) $(DEFS) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS)
 #>+ 1
 CXXCOMPILE = $(CXX) $(DEFS) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) $(KDE_CXXFLAGS)
@@ -493,8 +492,8 @@ maintainer-clean: maintainer-clean-am
 
 ####### kdevelop will overwrite this part!!! (end)############
 
-  INCL = -I$(top_srcdir)/stellarlegacy
-#  INCL = -I$(top_srcdir)/stellarlegacy -I$(libstdcxxdir)/include/g++-v3
+@NO_LIBSTDCPP_TRUE@  INCL = -I$(top_srcdir)/stellarlegacy
+@NO_LIBSTDCPP_FALSE@  INCL = -I$(top_srcdir)/stellarlegacy -I$(libstdcxxdir)/include/g++-v3
 
 # Tell versions [3.59,3.63) of GNU make to not export all variables.
 # Otherwise a system limit (for SysV at least) may be exceeded.
